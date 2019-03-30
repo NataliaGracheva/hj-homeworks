@@ -34,16 +34,17 @@
   <script>
     'use strict';
     const img = document.getElementById('slider');
-    const imgArrey = ["i/airmax-jump.png", "i/airmax-on-foot.png", "i/airmax-playground.png", "i/airmax-top-view.png", "i/airmax.png"];
+    const imgArray = ["i/airmax-jump.png", "i/airmax-on-foot.png", "i/airmax-playground.png", "i/airmax-top-view.png", "i/airmax.png"];
     let step = 0;
+    img.src = imgArray[0];
 
     setInterval(() => {
-      img.src = imgArrey[step];
       step += 1;
-
-      if (step >= imgArrey.length) {
+      
+      if (step >= imgArray.length) {
         step = 0;
       }
+      img.src = imgArray[step];
     }, 5000);
   </script>
 </body>
