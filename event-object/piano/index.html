@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Задача 1. Пианино | Домашнее задание к лекции 2.1</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <ul class="set middle">
+    <li class="white">
+      <audio src=""></audio>
+    </li>
+    <li class="black">
+      <audio src=""></audio>
+    </li>
+  	<li class="white">
+      <audio src=""></audio>
+    </li>
+    <li class="black">
+      <audio src=""></audio>
+    </li>
+  	<li class="white">
+      <audio src=""></audio>
+    </li>
+  </ul>
+
+  <script type="text/javascript">
+    'use strict'; 
+    const keys = document.getElementsByTagName('li');
+    const players = document.getElementsByTagName('audio');
+    const volumeControl = document.getElementsByClassName('set')[0];
+    const soundsMiddle = ['sounds/middle/first.mp3', 'sounds/middle/second.mp3', 'sounds/middle/third.mp3', 'sounds/middle/fourth.mp3', 'sounds/middle/fifth.mp3'];
+    const soundsHigher = ['sounds/higher/first.mp3', 'sounds/higher/second.mp3', 'sounds/higher/third.mp3', 'sounds/higher/fourth.mp3', 'sounds/higher/fifth.mp3'];
+    const soundsLower = ['sounds/lower/first.mp3', 'sounds/lower/second.mp3', 'sounds/lower/third.mp3', 'sounds/lower/fourth.mp3', 'sounds/lower/fifth.mp3'];
+
+    let sounds = soundsMiddle;;
+    for (let i = 0; i < keys.length; i++) {
+      players[i].src = sounds[i];
+      keys[i].addEventListener('click', () => {players[i].play();});
+    }
+
+    document.addEventListener('keydown', updatePlayer);
+    document.addEventListener('keyup', resetPlayer);
+
+    function updatePlayer(event) {
+
+      if (!event.altKey && !event.shiftKey) {
+        return;
+      } else if (event.altKey) {
+        sounds = soundsHigher;
+        volumeControl.classList.remove('middle', 'lower');
+        volumeControl.classList.add('higher');
+      } else {
+        sounds = soundsLower;
+        volumeControl.classList.remove('higher', 'middle');
+        volumeControl.classList.add('lower');
+      }
+    }
+
+    function resetPlayer(event) {
+      // if (event.altKey || event.shiftKey) {
+      sounds = soundsMiddle;
+      volumeControl.classList.remove('higher', 'lower');
+      volumeControl.classList.add('middle');
+      // }
+    }
+    
+  </script>
+</body>
+</html>
