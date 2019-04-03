@@ -47,20 +47,25 @@
     const btnBack = document.getElementsByClassName('back')[0];
     const songsArray = ['mp3/LA Chill Tour.mp3', 'mp3/This is it band.mp3', 'mp3/LA Fusion Jam.mp3'];
     let step = 0;
+    let isPlaying = false;
 
     btnPlaystate.onclick = function() {
       document.getElementsByClassName('mediaplayer')[0].classList.toggle('play');
       
       if (player.paused) {
       player.play();
+      isPlaying = true;
       } else {
       player.pause();
+      isPlaying = false;
       }
     };
 
     btnStop.onclick = function() {
+      document.getElementsByClassName('mediaplayer')[0].classList.remove('play');
       player.pause();
       player.currentTime = 0;
+      isPlaying = false;
     };
 
     btnNext.onclick = function() {
@@ -69,8 +74,7 @@
       if (step >= songsArray.length) {
         step = 0;
       }
-      player.src = songsArray[step];
-      document.getElementsByClassName('title')[0].title = songsArray[step].split('/').pop().split('.')[0];
+      changeSong();
     };
 
     btnBack.onclick = function () {
@@ -79,9 +83,18 @@
       if (step < 0) {
           step = songsArray.length -1;
       }
+      changeSong();
+    };
+
+    function changeSong() {
       player.src = songsArray[step];
       document.getElementsByClassName('title')[0].title = songsArray[step].split('/').pop().split('.')[0];
-    };
+      
+      if (isPlaying) {
+      player.play();
+      }
+    }  
+
   </script>
 </body>
 </html>
