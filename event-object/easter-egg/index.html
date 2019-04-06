@@ -68,10 +68,14 @@
       if (event.ctrlKey) {
         return;
       }
-      let letter = event.code.substring(3);
-      // console.log(letter);
-      input.push(letter);
-      // console.log(input);
+      // console.log(event.code);
+      
+      if (event.code !== 'ShiftLeft' && event.code !== 'ShiftRight' && event.code !== 'CapsLock') {
+        let letter = event.code.substring(3);
+        // console.log(letter);
+        input.push(letter);
+        // console.log(input);
+      }
 
       if (input.length === 9) {
         if (input.join('') === secretWord) {  
