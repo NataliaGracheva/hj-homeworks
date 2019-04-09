@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Конвертер валют</title>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css" integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <main id="content" class="hidden">
+    <input type="number" id="source" value="100">
+    <select id="from"></select>
+    <span><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>
+    <select id="to"></select>
+    <output id="result"></output>
+  </main>
+
+  <div id="loader" class="hidden">Загрузка...</div>
+</body>
+<script type="text/javascript">
+  const input = document.getElementById('source');
+  const select = document.getElementsByTagName('select');
+  const from = document.getElementById('from');
+  const to = document.getElementById('to');
+  const output = document.getElementById('result');
+  const content = document.getElementById('content');
+  const preloader = document.getElementById('loader');
+
+  let xhr = new XMLHttpRequest();
+  xhr.addEventListener('load', onLoad);
+  xhr.open('GET','https://neto-api.herokuapp.com/currency', true);//
+  xhr.addEventListener('loadstart', () => 
+    preloader.classList.remove('hidden'));
+  xhr.addEventListener('loadend', () => {
+    preloader.classList.add('hidden')
+    // content.classList.remove('hidden');
+    });
+  xhr.send();
+
+  input.addEventListener('change', showResult);
+  from.addEventListener('change', showResult);
+  to.addEventListener('change', showResult);
+
+
+    function onLoad() {
+      if (xhr.status !== 200) {
+        console.log(`Ответ ${xhr.status}: ${xhr.statusText}`);
+      } else {
+        let data = JSON.parse(xhr.responseText);
+        // console.log(data);
+        content.classList.remove('hidden');
+       
+        for (let element of select) {
+          for (let el of data) {
+            
+            let option = document.createElement('option');
+            option.label = el.code;
+            option.value = el.value;
+
+            element.appendChild(option);
+          }
+        }
+       // console.log(from.value);
+       // console.log(input.value);
+       // console.log(to.value);
+       showResult(); 
+      }
+    }
+
+    function showResult() {
+      output.value = (from.value * input.value / to.value).toFixed(2);
+    }
+
+</script>
+</html>
