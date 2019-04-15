@@ -12,6 +12,10 @@
     btnFirst.addEventListener('click', event => moveSlide('first'));
     btnLast.addEventListener('click', event => moveSlide('last'));
 
+    btnPrev.classList.add('disabled');
+    btnFirst.classList.add('disabled');
+
+
     function moveSlide(direction) {
       currentSlide = document.querySelector('.slide-current');
       let activatedSlide;
