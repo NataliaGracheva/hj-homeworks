@@ -2,17 +2,9 @@
 
 function handleTableClick(event) {
   
-  if (!event.target.classList.contains('prop__name')) {
-  	return;
+  if (event.target.classList.contains('prop__name')) {
+  	event.target.dataset.dir = event.target.dataset.dir === '1' ? '-1' : '1';
   }
-  let field = event.target.dataset.propName;
-  
-  if (event.target.dataset.dir != 1) {
-  	event.target.dataset.dir = 1;
-  } else {
-  	event.target.dataset.dir = -1;
-  }
-  let direction = event.target.dataset.dir;
-  event.currentTarget.dataset.sortBy = field;
-  sortTable(field, direction);
+  event.currentTarget.dataset.sortBy = event.target.dataset.propName;
+  sortTable(event.target.dataset.propName, event.target.dataset.dir);
 }
