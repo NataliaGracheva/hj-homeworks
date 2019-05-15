@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Мусорное ведро</title>
+	<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+	<img src="https://preview.ibb.co/fXb0Yz/office_2016_1.png" class="logo" style="top: 5px; left: 5px;">
+	<img src="https://preview.ibb.co/dfJEtz/office_2016_2.png" class="logo" style="top: 5px; left: 125px;">
+	<img src="https://preview.ibb.co/jAuhfe/office_2016_3.png" class="logo" style="top: 5px; left: 245px;">
+	<img src="https://preview.ibb.co/mOceRK/office_2016_4.png" class="logo" style="top: 125px; left: 5px;">
+	<img src="https://preview.ibb.co/iqpb6K/office_2016_5.png" class="logo" style="top: 125px; left: 125px;">
+	<img src="https://preview.ibb.co/hGrZtz/office_2016_6.png" class="logo" style="top: 125px; left: 245px;">
+
+	<img src="https://cdn.icon-icons.com/icons2/494/PNG/512/trash_icon-icons.com_48207.png" alt="" id="trash_bin">
+	<script type="text/javascript">
+		let movedEl = null;
+		let shiftX = 0;
+		let shiftY = 0;
+		
+		const dragStart = event => {
+		    if (event.target.classList.contains('logo')) {
+			    movedEl = event.target;
+			    shiftX = event.pageX - event.target.getBoundingClientRect().left - window.pageXOffset;
+			    shiftY = event.pageY - event.target.getBoundingClientRect().top - window.pageYOffset;
+		    }
+		};
+
+		const drag = throttle((x, y) => {
+		    if (movedEl) {
+			    x = x - shiftX;
+			    y = y - shiftY;
+			    movedEl.style.left = x + 'px';
+			    movedEl.style.top = y + 'px';
+			    movedEl.classList.add('moving');
+		    }
+		});
+
+		const drop = event => {
+		    if (movedEl) {
+			    movedEl.style.visibility = 'hidden';
+			    const trashBin = document.elementFromPoint(event.clientX, event.clientY).closest('#trash_bin');
+			    movedEl.style.visibility = 'visible';
+			    if (trashBin) {
+			        movedEl.classList.remove('moving');
+			        movedEl.style.display = 'none';
+			        movedEl = null;
+			    }
+		    }
+		};
+		
+		document.addEventListener('mousedown', dragStart);
+		document.addEventListener('mousemove', event => drag(event.pageX, event.pageY));
+		document.addEventListener('mouseup', drop);
+
+		document.addEventListener('touchstart', event => dragStart(event.touches[0]));
+		document.addEventListener('touchmove', event => drag(event.touches[0].pageX, event.touches[0].pageY));
+		document.addEventListener('touchend', event => drop(event.changedTouches[0]));
+
+        function throttle(callback) {
+		    let isWaiting = false;
+		    return function () {
+			    if (!isWaiting) {
+			        callback.apply(this, arguments);
+			        isWaiting = true;
+			        requestAnimationFrame(() => {
+				        isWaiting = false;
+			        });
+			    }
+		    };
+		}
+	</script>
+</body>
+</html>
