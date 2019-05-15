@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Ограничение частоты функций</title>
+	<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+	<div class="block">
+	  <span class="left_eye"></span>  
+	  <span class="right_eye"></span>
+	  <p class="message">Ты почему перестал печатать?</p>
+	</div>
+	
+	<textarea class="textarea" placeholder="Введите текст..."></textarea>
+	<script type="text/javascript">
+		const input = document.querySelector('textarea');
+		input.addEventListener('focus', (event) => {
+		    document.querySelector('.block').classList.add('active');    
+		});
+		input.addEventListener('blur', (event) => {
+		    document.querySelector('.block').classList.remove('active');
+		    document.querySelector('.message').classList.remove('view');
+		    input.value = '';    
+		});
+
+        input.addEventListener('input', () => {
+			document.querySelector('.block').classList.add('active');
+			document.querySelector('.message').classList.remove('view');
+		});
+		input.addEventListener('keydown', debounce(() => {
+			document.querySelector('.block').classList.remove('active');
+			document.querySelector('.message').classList.add('view');
+		}, 2000));
+
+		function debounce(callback, delay) {
+			let timeout;
+			return () => {
+				clearTimeout(timeout);
+				timeout = setTimeout(function() {
+					timeout = null;
+					callback();
+				}, delay);
+			};
+		};
+
+
+	</script>
+</body>
+</html>
