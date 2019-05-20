@@ -42,11 +42,11 @@
 			    movedEl.style.visibility = 'hidden';
 			    const trashBin = document.elementFromPoint(event.clientX, event.clientY).closest('#trash_bin');
 			    movedEl.style.visibility = 'visible';
+			    movedEl.classList.remove('moving');
 			    if (trashBin) {
-			        movedEl.classList.remove('moving');
 			        movedEl.style.display = 'none';
-			        movedEl = null;
 			    }
+			    movedEl = null;
 		    }
 		};
 		
@@ -70,6 +70,7 @@
 			    }
 		    };
 		}
+
 	</script>
 </body>
 </html>
